@@ -10,7 +10,7 @@
 
 <script>
 import MyFooter from "../components/Footer.vue";
-import MyHeader from "../components/public/header/index";
+import MyHeader from "../components/public/header/topBar";
 export default {
   components: {
     MyFooter,

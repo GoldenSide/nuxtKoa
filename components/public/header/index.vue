@@ -1,26 +1,30 @@
 <!---*
-* @description  出口文件
+* @description  
 * @fileName index.vue
 * @author 叶金龙
-* @date 2021/02/14 23:15:48
+* @date 2021/02/15 17:02:58
 *--->
 <template>
-  <el-row :gutter="0" class="m-header">
-    <el-col :span="6">
-      <Geo />
-    </el-col>
-    <el-col :span="6">
-      <User />
-    </el-col>
-  </el-row>
+  <div class="m-header">
+    <el-row>
+      <el-col>
+        <top-bar></top-bar>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col>
+        <search-bar></search-bar>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
-import Geo from "./geo";
-import User from "./user";
+import topBar from "./topBar";
+import searchBar from "./searchBar";
 export default {
   name: "",
-  components: { Geo, User },
+  components: { topBar, searchBar },
   data() {
     return {};
   },
@@ -34,5 +38,5 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import "@/assets/css/public/layout";
+@import "@/assets/css/public/header/index";
 </style>
