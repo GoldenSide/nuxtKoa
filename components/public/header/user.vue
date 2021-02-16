@@ -1,40 +1,35 @@
-<!---*
-* @description 用户信息
-* @fileName user.vue
-* @author 叶金龙
-* @date 2021/02/14 23:33:45
-*--->
 <template>
   <div class="m-user">
-    <template v-if="user"
-      >欢迎您， <span class="username">{{ user }}</span> [<nuxt-link to="/exit"
-        >退出</nuxt-link
-      >]
+    <template v-if="user">
+      欢迎您，<span class="username">{{ user }}</span>
+      [<nuxt-link to="/exit">退出</nuxt-link>]
     </template>
     <template v-else>
-      <nuxt-link to="/login" class="login">立即登录</nuxt-link>
-      <nuxt-link to="/register" class="register">注册</nuxt-link>
+      <nuxt-link
+        to="/login"
+        class="login">立即登录</nuxt-link>
+      <nuxt-link
+        class="register"
+        to="/register">注册</nuxt-link>
     </template>
   </div>
 </template>
 
 <script>
 export default {
-  name: "",
-  components: {},
-  data() {
+  data(){
     return {
-      user: "",
-    };
+      user:''
+    }
   },
-  props: {},
-  watch: {
-    xxx: {},
-  },
-  created() {},
-  methods: {},
-};
+  async mounted(){
+    const {status,data:{user}} = await this.$axios.get('/users/getUser')
+    if(status===200){
+      this.user=user
+    }
+  }
+}
 </script>
 
-<style scoped lang='scss'>
+<style lang="css">
 </style>

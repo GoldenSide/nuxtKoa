@@ -1,8 +1,10 @@
 @import "./topbar.scss";
 @import "./search.scss";
+
 .m-header{
   @at-root .layout-default{
     .el-header{
+       height: 40px  !important;
       .m-header {
         width: 100%;
       }

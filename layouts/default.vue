@@ -1,5 +1,5 @@
 <template>
-  <el-container class="“layout-default”">
+  <el-container class="layout-default">
     <el-header><my-header /></el-header>
     <el-main>
       <nuxt />
@@ -10,7 +10,7 @@
 
 <script>
 import MyFooter from "../components/Footer.vue";
-import MyHeader from "../components/public/header/topBar";
+import MyHeader from "../components/public/header/index";
 export default {
   components: {
     MyFooter,

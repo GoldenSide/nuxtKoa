@@ -1,0 +1,1 @@
+export const state = () => ({position: '深圳'})

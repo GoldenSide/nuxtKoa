@@ -1,23 +1,17 @@
-<!---*
-* @description 
-* @fileName nav.vue
-* @author 叶金龙
-* @date 2021/02/14 23:09:07
-*--->
 <template>
   <div class="m-nav">
     <ul class="nav">
       <li class="list">
         <nuxt-link to="/my">我的美团</nuxt-link>
         <dl>
-          <dd><nuxt-link to="order">我的订单</nuxt-link></dd>
-          <dd><nuxt-link to="order">我的收藏</nuxt-link></dd>
-          <dd><nuxt-link to="order">抵用券</nuxt-link></dd>
-          <dd><nuxt-link to="order">账户设置</nuxt-link></dd>
+          <dd><nuxt-link to="/order">我的订单</nuxt-link></dd>
+          <dd><nuxt-link to="/order">我的收藏</nuxt-link></dd>
+          <dd><nuxt-link to="/order">抵用券</nuxt-link></dd>
+          <dd><nuxt-link to="/order">账户设置</nuxt-link></dd>
         </dl>
       </li>
-      <li class="list">
-        <nuxt-link to="/order">手机app</nuxt-link>
+      <li>
+        <nuxt-link to="/order">手机APP</nuxt-link>
       </li>
       <li class="list bd">
         <nuxt-link to="/center">商家中心</nuxt-link>
@@ -75,8 +69,7 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app"
-                />
+                  alt="美团app">
               </a>
             </dd>
             <dd>
@@ -84,8 +77,7 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app"
-                />
+                  alt="美团app">
               </a>
             </dd>
             <dd>
@@ -93,8 +85,7 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app"
-                />
+                  alt="美团app">
               </a>
             </dd>
             <dd>
@@ -102,8 +93,7 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app"
-                />
+                  alt="美团app">
               </a>
             </dd>
             <dd>
@@ -111,8 +101,7 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app"
-                />
+                  alt="美团app">
               </a>
             </dd>
           </dl>
@@ -124,20 +113,8 @@
 
 <script>
 export default {
-  name: "",
-  components: {},
-  data() {
-    return {};
-  },
-  props: {},
-  watch: {
-    xxx: {},
-  },
-  created() {},
-  methods: {},
-};
+}
 </script>
 
-<style scoped lang='scss'>
-@import "@/assets/css/public/header/index.scss";
+<style lang="css">
 </style>
