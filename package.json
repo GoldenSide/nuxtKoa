@@ -5,7 +5,7 @@
   "author": "GoldenSide <1244338192@qq.com>",
   "private": true,
   "scripts": {
-    "dev": "backpack dev nodemon --watch --exec babel-node",
+    "dev": "backpack dev",
     "build": "nuxt build && backpack build",
     "start": "cross-env NODE_ENV=production node build/main.js --exec babel-node",
     "precommit": "npm run lint",
@@ -31,6 +31,7 @@
     "babel-eslint": "^8.2.1",
     "babel-preset-env": "^1.7.0",
     "backpack-core": "^0.8.4",
+    "crypto-js": "^4.0.0",
     "eslint": "^6.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^4.0.2",

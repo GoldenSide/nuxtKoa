@@ -1,4 +1,12 @@
-export const state = () => ({ hotPlace: [], menu: [] });
+export const state = () => ({
+  hotPlace: [],
+  menu: [
+    {
+      type: "food",
+      name: "美食"
+    }
+  ]
+});
 
 export const mutations = {
   setMenu(state, val) {

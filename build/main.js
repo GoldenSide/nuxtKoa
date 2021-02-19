@@ -100,7 +100,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: "starter",
+    title: "美团",
     meta: [{
       charset: "utf-8"
     }, {
@@ -171,17 +171,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var nuxt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nuxt */ "nuxt");
 /* harmony import */ var nuxt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nuxt__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _interface_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interface/users */ "./server/interface/users.js");
+/* harmony import */ var _interface_search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./interface/search */ "./server/interface/search.js");
+
+
 
 
 
 async function start() {
   const app = new koa__WEBPACK_IMPORTED_MODULE_0___default.a();
-  const host = process.env.HOST || '127.0.0.1';
+  const host = process.env.HOST || "127.0.0.1";
   const port = process.env.PORT || 3000; // Import and Set Nuxt.js options
 
   const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
 
-  config.dev = !(app.env === 'production'); // Instantiate nuxt.js
+  config.dev = !(app.env === "production"); // Instantiate nuxt.js
 
   const nuxt = new nuxt__WEBPACK_IMPORTED_MODULE_1__["Nuxt"](config); // Build in development
 
@@ -190,6 +194,8 @@ async function start() {
     await builder.build();
   }
 
+  app.use(_interface_users__WEBPACK_IMPORTED_MODULE_2__["default"].routes()).use(_interface_users__WEBPACK_IMPORTED_MODULE_2__["default"].allowedMethods());
+  app.use(_interface_search__WEBPACK_IMPORTED_MODULE_3__["default"].routes()).use(_interface_search__WEBPACK_IMPORTED_MODULE_3__["default"].allowedMethods());
   app.use(ctx => {
     ctx.status = 200;
     ctx.respond = false; // Mark request as handled for Koa
@@ -199,10 +205,102 @@ async function start() {
     nuxt.render(ctx.req, ctx.res);
   });
   app.listen(port, host);
-  console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
+  console.log("Server listening on " + host + ":" + port); // eslint-disable-line no-console
 }
 
 start();
+
+/***/ }),
+
+/***/ "./server/interface/search.js":
+/*!************************************!*\
+  !*** ./server/interface/search.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+ // import axios from './utils/axios'
+// import Poi from '../dbs/models/poi'
+// import sign from './utils/sign'
+
+let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
+  prefix: "/search"
+});
+router.get("/resultsByKeywords", async ctx => {
+  const {
+    city,
+    keyword
+  } = ctx.query; //   let {
+  //     status,
+  //     data: { count, pois }
+  //   } = await axios.get("http://cp-tools.cn/search/resultsByKeywords", {
+  //     params: {
+  //       city,
+  //       keyword,
+  //       sign
+  //     }
+  //   });
+  //   ctx.body = {
+  //     count: status === 200 ? count : 0,
+  //     pois: status === 200 ? pois : []
+  //   };
+
+  let count = 1;
+  let pois = [{
+    title: "我是标题",
+    pos: "深圳",
+    price: "100",
+    img: "",
+    url: "www.baidu.com",
+    photos: []
+  }];
+  ctx.body = {
+    count,
+    pois
+  };
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
+
+/***/ }),
+
+/***/ "./server/interface/users.js":
+/*!***********************************!*\
+  !*** ./server/interface/users.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+
+let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
+  prefix: "/users"
+});
+router.get("/getUser", async ctx => {
+  //   if (ctx.isAuthenticated()) {
+  //     const { username, email } = ctx.session.passport.user;
+  //     ctx.body = {
+  //       user: username,
+  //       email
+  //     };
+  //   } else {
+  //     ctx.body = {
+  //       user: "",
+  //       email: ""
+  //     };
+  //   }
+  ctx.body = {
+    user: "叶金龙",
+    email: "1244338192@qq.com"
+  };
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -214,6 +312,17 @@ start();
 /***/ (function(module, exports) {
 
 module.exports = require("koa");
+
+/***/ }),
+
+/***/ "koa-router":
+/*!*****************************!*\
+  !*** external "koa-router" ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("koa-router");
 
 /***/ }),
 

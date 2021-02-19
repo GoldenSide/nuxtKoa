@@ -4,7 +4,8 @@
 .m-header{
   @at-root .layout-default{
     .el-header{
-       height: 40px  !important;
+       height: auto !important;
+       background-color: #F8F8F8;
       .m-header {
         width: 100%;
       }
@@ -16,6 +17,7 @@
     z-index: 9999;
     height: 40px;
     line-height: 40px;
+    
   }
   >.el-row:nth-child(2){
     background: #fff;

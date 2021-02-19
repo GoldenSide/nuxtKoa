@@ -6,13 +6,15 @@
 }
 
 .el-header{
-    background: #F8F8F8;
+  
     color: #999;
     width: 100%;
     font-size: 12px;
+    box-shadow: 0 3px 50px 10px #ececec;
     .m-header{
         width: 1190px;
         margin: 0 auto;
+       
     }
 }
 
@@ -24,5 +26,5 @@
     "Helvetica Neue",
     "MIcrosoft YaHei",
     sans-serif !important;
-    // background-color: #F8F8F8;
+    background-color: #F8F8F8;
 }
