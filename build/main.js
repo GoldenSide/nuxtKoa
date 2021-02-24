@@ -3636,231 +3636,6 @@ function plural(ms, n, name) {
 
 /***/ }),
 
-/***/ "./node_modules/passport-local/lib/index.js":
-/*!**************************************************!*\
-  !*** ./node_modules/passport-local/lib/index.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-var Strategy = __webpack_require__(/*! ./strategy */ "./node_modules/passport-local/lib/strategy.js");
-
-
-/**
- * Expose `Strategy` directly from package.
- */
-exports = module.exports = Strategy;
-
-/**
- * Export constructors.
- */
-exports.Strategy = Strategy;
-
-
-/***/ }),
-
-/***/ "./node_modules/passport-local/lib/strategy.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/passport-local/lib/strategy.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-var passport = __webpack_require__(/*! passport-strategy */ "./node_modules/passport-strategy/lib/index.js")
-  , util = __webpack_require__(/*! util */ "util")
-  , lookup = __webpack_require__(/*! ./utils */ "./node_modules/passport-local/lib/utils.js").lookup;
-
-
-/**
- * `Strategy` constructor.
- *
- * The local authentication strategy authenticates requests based on the
- * credentials submitted through an HTML-based login form.
- *
- * Applications must supply a `verify` callback which accepts `username` and
- * `password` credentials, and then calls the `done` callback supplying a
- * `user`, which should be set to `false` if the credentials are not valid.
- * If an exception occured, `err` should be set.
- *
- * Optionally, `options` can be used to change the fields in which the
- * credentials are found.
- *
- * Options:
- *   - `usernameField`  field name where the username is found, defaults to _username_
- *   - `passwordField`  field name where the password is found, defaults to _password_
- *   - `passReqToCallback`  when `true`, `req` is the first argument to the verify callback (default: `false`)
- *
- * Examples:
- *
- *     passport.use(new LocalStrategy(
- *       function(username, password, done) {
- *         User.findOne({ username: username, password: password }, function (err, user) {
- *           done(err, user);
- *         });
- *       }
- *     ));
- *
- * @param {Object} options
- * @param {Function} verify
- * @api public
- */
-function Strategy(options, verify) {
-  if (typeof options == 'function') {
-    verify = options;
-    options = {};
-  }
-  if (!verify) { throw new TypeError('LocalStrategy requires a verify callback'); }
-  
-  this._usernameField = options.usernameField || 'username';
-  this._passwordField = options.passwordField || 'password';
-  
-  passport.Strategy.call(this);
-  this.name = 'local';
-  this._verify = verify;
-  this._passReqToCallback = options.passReqToCallback;
-}
-
-/**
- * Inherit from `passport.Strategy`.
- */
-util.inherits(Strategy, passport.Strategy);
-
-/**
- * Authenticate request based on the contents of a form submission.
- *
- * @param {Object} req
- * @api protected
- */
-Strategy.prototype.authenticate = function(req, options) {
-  options = options || {};
-  var username = lookup(req.body, this._usernameField) || lookup(req.query, this._usernameField);
-  var password = lookup(req.body, this._passwordField) || lookup(req.query, this._passwordField);
-  
-  if (!username || !password) {
-    return this.fail({ message: options.badRequestMessage || 'Missing credentials' }, 400);
-  }
-  
-  var self = this;
-  
-  function verified(err, user, info) {
-    if (err) { return self.error(err); }
-    if (!user) { return self.fail(info); }
-    self.success(user, info);
-  }
-  
-  try {
-    if (self._passReqToCallback) {
-      this._verify(req, username, password, verified);
-    } else {
-      this._verify(username, password, verified);
-    }
-  } catch (ex) {
-    return self.error(ex);
-  }
-};
-
-
-/**
- * Expose `Strategy`.
- */
-module.exports = Strategy;
-
-
-/***/ }),
-
-/***/ "./node_modules/passport-local/lib/utils.js":
-/*!**************************************************!*\
-  !*** ./node_modules/passport-local/lib/utils.js ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-exports.lookup = function(obj, field) {
-  if (!obj) { return null; }
-  var chain = field.split(']').join('').split('[');
-  for (var i = 0, len = chain.length; i < len; i++) {
-    var prop = obj[chain[i]];
-    if (typeof(prop) === 'undefined') { return null; }
-    if (typeof(prop) !== 'object') { return prop; }
-    obj = prop;
-  }
-  return null;
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/passport-strategy/lib/index.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/passport-strategy/lib/index.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-var Strategy = __webpack_require__(/*! ./strategy */ "./node_modules/passport-strategy/lib/strategy.js");
-
-
-/**
- * Expose `Strategy` directly from package.
- */
-exports = module.exports = Strategy;
-
-/**
- * Export constructors.
- */
-exports.Strategy = Strategy;
-
-
-/***/ }),
-
-/***/ "./node_modules/passport-strategy/lib/strategy.js":
-/*!********************************************************!*\
-  !*** ./node_modules/passport-strategy/lib/strategy.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Creates an instance of `Strategy`.
- *
- * @constructor
- * @api public
- */
-function Strategy() {
-}
-
-/**
- * Authenticate request.
- *
- * This function must be overridden by subclasses.  In abstract form, it always
- * throws an exception.
- *
- * @param {Object} req The request to authenticate.
- * @param {Object} [options] Strategy-specific options.
- * @api public
- */
-Strategy.prototype.authenticate = function(req, options) {
-  throw new Error('Strategy#authenticate must be overridden by subclass');
-};
-
-
-/**
- * Expose `Strategy`.
- */
-module.exports = Strategy;
-
-
-/***/ }),
-
 /***/ "./node_modules/supports-color/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/supports-color/index.js ***!
@@ -4003,7 +3778,8 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  dbs: "mongodb://127.0.0.1:27017/student",
+  // dbs: "mongodb://127.0.0.1:27017/student",
+  dbs: "mongodb://127.0.0.1:27017/mt",
   redis: {
     get host() {
       return "127.0.0.1";
@@ -4025,22 +3801,21 @@ __webpack_require__.r(__webpack_exports__);
 
     get pass() {
       return "pzvazfwuelycbaci";
+    },
+
+    get code() {
+      return () => {
+        return Math.random().toString(16).slice(2, 6).toUpperCase();
+      };
+    },
+
+    get expire() {
+      return () => {
+        return new Date().getTime() + 60 * 60 * 10 * 1000;
+      };
     }
 
-  },
-
-  get code() {
-    return () => {
-      return Math.random().toString(16).slice(2, 6), toUpperCase();
-    };
-  },
-
-  get expire() {
-    return () => {
-      return new Date().getTime() + 60 * 60 * 1000;
-    };
   }
-
 });
 
 /***/ }),
@@ -4092,6 +3867,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var nuxt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nuxt__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _interface_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interface/users */ "./server/interface/users.js");
 /* harmony import */ var _interface_search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./interface/search */ "./server/interface/search.js");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! koa-generic-session */ "koa-generic-session");
+/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(koa_generic_session__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! koa-redis */ "koa-redis");
+/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(koa_redis__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! koa-json */ "koa-json");
+/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(koa_json__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _dbs_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dbs/config */ "./server/dbs/config.js");
+/* harmony import */ var _interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./interface/utils/passport */ "./server/interface/utils/passport.js");
+
+
+
+
+
+
+
 
 
 
@@ -4100,7 +3894,30 @@ __webpack_require__.r(__webpack_exports__);
 async function start() {
   const app = new koa__WEBPACK_IMPORTED_MODULE_0___default.a();
   const host = process.env.HOST || "127.0.0.1";
-  const port = process.env.PORT || 3000; // Import and Set Nuxt.js options
+  const port = process.env.PORT || 3000;
+  app.keys = ["mt", "keyskeys"];
+  app.proxy = true;
+  app.use(koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default()({
+    key: "mt",
+    prefix: "mt:uid",
+    store: new koa_redis__WEBPACK_IMPORTED_MODULE_7___default.a()
+  }));
+  app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default()({
+    extendTypes: ["json", "form", "text"]
+  }));
+  app.use(koa_json__WEBPACK_IMPORTED_MODULE_8___default()()); // mongoose.connect(dbConfig.dbs, {
+  //   useNewUrlParser: true
+  // });
+
+  mongoose__WEBPACK_IMPORTED_MODULE_4___default.a.connect(_dbs_config__WEBPACK_IMPORTED_MODULE_9__["default"].dbs, function (err) {
+    if (err) {
+      console.log("连接失败");
+    } else {
+      console.log("连接成功");
+    }
+  });
+  app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].initialize());
+  app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].session()); // Import and Set Nuxt.js options
 
   const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
 
@@ -4234,9 +4051,8 @@ router.post("/signup", async ctx => {
           code: -1,
           msg: "验证码已过期，请重新尝试"
         };
+        return false;
       }
-
-      return false;
     } else {
       ctx.body = {
         code: -1,
@@ -4293,23 +4109,107 @@ router.post("/signup", async ctx => {
     };
   }
 });
-router.get("/getUser", async ctx => {
-  //   if (ctx.isAuthenticated()) {
-  //     const { username, email } = ctx.session.passport.user;
-  //     ctx.body = {
-  //       user: username,
-  //       email
-  //     };
-  //   } else {
-  //     ctx.body = {
-  //       user: "",
-  //       email: ""
-  //     };
-  //   }
-  ctx.body = {
-    user: "叶金龙",
-    email: "1244338192@qq.com"
+router.post("/signin", async (ctx, next) => {
+  return _utils_passport__WEBPACK_IMPORTED_MODULE_4__["default"].authenticate("local", function (err, user, info, status) {
+    if (err) {
+      ctx.body = {
+        code: -1,
+        msg: err
+      };
+    } else {
+      if (user) {
+        ctx.body = {
+          code: 0,
+          msg: "登陆成功",
+          user
+        };
+      } else {
+        ctx.body = {
+          code: -1,
+          msg: info
+        };
+      }
+    }
+  })(ctx, next);
+});
+router.post("/verify", async (ctx, next) => {
+  let username = ctx.request.body.username;
+  const saveExpire = await Store.hget(`nodemail:${username}`, "expire");
+
+  if (saveExpire && new Date().getTime() - saveExpire < 0) {
+    ctx.body = {
+      code: -1,
+      msg: "验证请求过于频繁，1分钟内一次"
+    };
+    return false;
+  }
+
+  let transporter = nodemailer__WEBPACK_IMPORTED_MODULE_2___default.a.createTransport({
+    host: _dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.host,
+    port: 587,
+    secure: false,
+    auth: {
+      user: _dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.user,
+      pass: _dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.pass
+    }
+  });
+  let ko = {
+    code: _dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.code(),
+    expire: _dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.expire(),
+    email: ctx.request.body.email,
+    user: ctx.request.body.username
   };
+  let mailOption = {
+    from: `"认证邮件" <${_dbs_config__WEBPACK_IMPORTED_MODULE_5__["default"].smtp.user}>`,
+    to: ko.email,
+    subject: "《慕课网高仿美团网全栈实战》注册码",
+    html: `您在《慕课网高仿美团网全栈实战》课程中注册，您的邀请码是${ko.code},有效时间1分钟`
+  };
+  await transporter.sendMail(mailOption, (error, info) => {
+    if (error) {
+      return console.log(error);
+    } else {
+      Store.hmset(`nodemail:${ko.user}`, "code", ko.code, "expire", ko.expire, "email", ko.email);
+    }
+  });
+  ctx.body = {
+    code: 0,
+    msg: "邮件已发送，可能会有延迟，有效期1分钟"
+  };
+});
+router.get("/exit", async (ctx, next) => {
+  await ctx.logout();
+
+  if (!ctx.isAuthenticated()) {
+    ctx.body = {
+      code: 0
+    };
+  } else {
+    ctx.body = {
+      code: -1
+    };
+  }
+});
+router.get("/getUser", async ctx => {
+  console.log(ctx);
+
+  if (ctx.isAuthenticated()) {
+    console.log(ctx); // console.log(ctx)
+
+    const {
+      username,
+      email
+    } = ctx.session.passport.user;
+    ctx.body = {
+      user: username,
+      email
+    };
+  } else {
+    ctx.body = {
+      user: "",
+      email: ""
+    };
+  }
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -4347,7 +4247,7 @@ const instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var koa_passport__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-passport */ "koa-passport");
 /* harmony import */ var koa_passport__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_passport__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var passport_local__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! passport-local */ "./node_modules/passport-local/lib/index.js");
+/* harmony import */ var passport_local__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! passport-local */ "passport-local");
 /* harmony import */ var passport_local__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(passport_local__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _dbs_models_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dbs/models/users */ "./server/dbs/models/users.js");
 
@@ -4423,6 +4323,39 @@ module.exports = require("koa");
 
 /***/ }),
 
+/***/ "koa-bodyparser":
+/*!*********************************!*\
+  !*** external "koa-bodyparser" ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("koa-bodyparser");
+
+/***/ }),
+
+/***/ "koa-generic-session":
+/*!**************************************!*\
+  !*** external "koa-generic-session" ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("koa-generic-session");
+
+/***/ }),
+
+/***/ "koa-json":
+/*!***************************!*\
+  !*** external "koa-json" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("koa-json");
+
+/***/ }),
+
 /***/ "koa-passport":
 /*!*******************************!*\
   !*** external "koa-passport" ***!
@@ -4486,6 +4419,17 @@ module.exports = require("nodemailer");
 /***/ (function(module, exports) {
 
 module.exports = require("nuxt");
+
+/***/ }),
+
+/***/ "passport-local":
+/*!*********************************!*\
+  !*** external "passport-local" ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("passport-local");
 
 /***/ }),
 

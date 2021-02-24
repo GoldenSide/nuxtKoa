@@ -1,5 +1,6 @@
 export default {
-  dbs: "mongodb://127.0.0.1:27017/student",
+  // dbs: "mongodb://127.0.0.1:27017/student",
+  dbs: "mongodb://127.0.0.1:27017/mt",
   redis: {
     get host() {
       return "127.0.0.1";
@@ -17,21 +18,19 @@ export default {
     },
     get pass() {
       return "pzvazfwuelycbaci";
-    }
-  },
-  get code() {
-    return () => {
-      return (
-        Math.random()
+    },
+    get code() {
+      return () => {
+        return Math.random()
           .toString(16)
-          .slice(2, 6),
-        toUpperCase()
-      );
-    };
-  },
-  get expire() {
-    return () => {
-      return new Date().getTime() + 60 * 60 * 1000;
-    };
+          .slice(2, 6)
+          .toUpperCase();
+      };
+    },
+    get expire() {
+      return () => {
+        return new Date().getTime() + 60 * 60 * 10 * 1000;
+      };
+    }
   }
 };
