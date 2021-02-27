@@ -3762,7 +3762,8 @@ module.exports = {
     },
 
     cache: false
-  } // vendor:['element-ui']
+  },
+  telemetry: false // vendor:['element-ui']
 
 };
 
@@ -3890,39 +3891,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const app = new koa__WEBPACK_IMPORTED_MODULE_0___default.a();
+const host = process.env.HOST || "127.0.0.1";
+const port = process.env.PORT || 3000;
+app.keys = ["mt", "keyskeys"];
+app.proxy = true;
+app.use(koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default()({
+  key: "mt",
+  prefix: "mt:uid",
+  store: new koa_redis__WEBPACK_IMPORTED_MODULE_7___default.a()
+}));
+app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default()({
+  extendTypes: ["json", "form", "text"]
+}));
+app.use(koa_json__WEBPACK_IMPORTED_MODULE_8___default()()); // mongoose.connect(dbConfig.dbs, {
+//   useNewUrlParser: true
+// });
+
+mongoose__WEBPACK_IMPORTED_MODULE_4___default.a.connect(_dbs_config__WEBPACK_IMPORTED_MODULE_9__["default"].dbs, function (err) {
+  if (err) {
+    console.log("连接失败");
+  } else {
+    console.log("连接成功");
+  }
+});
+app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].initialize());
+app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].session()); // Import and Set Nuxt.js options
+
+const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
+
+config.dev = !(app.env === "production");
 
 async function start() {
-  const app = new koa__WEBPACK_IMPORTED_MODULE_0___default.a();
-  const host = process.env.HOST || "127.0.0.1";
-  const port = process.env.PORT || 3000;
-  app.keys = ["mt", "keyskeys"];
-  app.proxy = true;
-  app.use(koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default()({
-    key: "mt",
-    prefix: "mt:uid",
-    store: new koa_redis__WEBPACK_IMPORTED_MODULE_7___default.a()
-  }));
-  app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default()({
-    extendTypes: ["json", "form", "text"]
-  }));
-  app.use(koa_json__WEBPACK_IMPORTED_MODULE_8___default()()); // mongoose.connect(dbConfig.dbs, {
-  //   useNewUrlParser: true
-  // });
-
-  mongoose__WEBPACK_IMPORTED_MODULE_4___default.a.connect(_dbs_config__WEBPACK_IMPORTED_MODULE_9__["default"].dbs, function (err) {
-    if (err) {
-      console.log("连接失败");
-    } else {
-      console.log("连接成功");
-    }
-  });
-  app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].initialize());
-  app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].session()); // Import and Set Nuxt.js options
-
-  const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
-
-  config.dev = !(app.env === "production"); // Instantiate nuxt.js
-
+  // Instantiate nuxt.js
   const nuxt = new nuxt__WEBPACK_IMPORTED_MODULE_1__["Nuxt"](config); // Build in development
 
   if (config.dev) {
@@ -4118,11 +4119,19 @@ router.post("/signin", async (ctx, next) => {
       };
     } else {
       if (user) {
+        ctx.cookies.set("userinfo", "joyitsai", {
+          // new Date(year, month, day, hours, minutes, seconds, milliseconds)
+          expires: new Date(2029, 5, 1, 10, 40, 0, 0),
+          httpOnly: true
+        });
         ctx.body = {
           code: 0,
           msg: "登陆成功",
           user
-        };
+        }; // ctx.session = {
+        //   user_id: "12",
+        //   count: 0
+        // };
       } else {
         ctx.body = {
           code: -1,
@@ -4191,11 +4200,14 @@ router.get("/exit", async (ctx, next) => {
   }
 });
 router.get("/getUser", async ctx => {
-  console.log(ctx);
+  // console.log(ctx);
+  console.log(ctx.session);
+  console.log("-----------------------------"); // console.log(ctx.res);
+
+  console.log(ctx.isAuthenticated()); // console.log("-----------------------------");
 
   if (ctx.isAuthenticated()) {
-    console.log(ctx); // console.log(ctx)
-
+    console.log(ctx);
     const {
       username,
       email
@@ -4230,6 +4242,7 @@ __webpack_require__.r(__webpack_exports__);
 const instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: `http://${process.env.HOST || "localhost"}:${process.env.prot || 3000}`,
   timeout: 1000,
+  withCredentials: true,
   headers: {}
 });
 /* harmony default export */ __webpack_exports__["default"] = (instance);

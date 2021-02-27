@@ -45,6 +45,7 @@ module.exports = {
       }
     },
     cache: false
-  }
+  },
+  telemetry: false
   // vendor:['element-ui']
 };

@@ -10,47 +10,45 @@ import Redis from "koa-redis";
 import json from "koa-json";
 import dbConfig from "./dbs/config";
 import passport from "./interface/utils/passport";
+const app = new Koa();
+const host = process.env.HOST || "127.0.0.1";
+const port = process.env.PORT || 3000;
+app.keys = ["mt", "keyskeys"];
+app.proxy = true;
+app.use(
+  session({
+    key: "mt",
+    prefix: "mt:uid",
+    store: new Redis()
+  })
+);
+
+app.use(
+  bodyParser({
+    extendTypes: ["json", "form", "text"]
+  })
+);
+
+app.use(json());
+
+// mongoose.connect(dbConfig.dbs, {
+//   useNewUrlParser: true
+// });
+
+mongoose.connect(dbConfig.dbs, function(err) {
+  if (err) {
+    console.log("连接失败");
+  } else {
+    console.log("连接成功");
+  }
+});
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Import and Set Nuxt.js options
+const config = require("../nuxt.config.js");
+config.dev = !(app.env === "production");
 async function start() {
-  const app = new Koa();
-  const host = process.env.HOST || "127.0.0.1";
-  const port = process.env.PORT || 3000;
-
-  app.keys = ["mt", "keyskeys"];
-  app.proxy = true;
-  app.use(
-    session({
-      key: "mt",
-      prefix: "mt:uid",
-      store: new Redis()
-    })
-  );
-
-  app.use(
-    bodyParser({
-      extendTypes: ["json", "form", "text"]
-    })
-  );
-
-  app.use(json());
-
-  // mongoose.connect(dbConfig.dbs, {
-  //   useNewUrlParser: true
-  // });
-
-  mongoose.connect(dbConfig.dbs, function(err) {
-    if (err) {
-      console.log("连接失败");
-    } else {
-      console.log("连接成功");
-    }
-  });
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  // Import and Set Nuxt.js options
-  const config = require("../nuxt.config.js");
-  config.dev = !(app.env === "production");
-
   // Instantiate nuxt.js
   const nuxt = new Nuxt(config);
 
