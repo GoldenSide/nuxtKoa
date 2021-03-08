@@ -76,20 +76,12 @@ router.post("/signin", async (ctx, next) => {
       };
     } else {
       if (user) {
-        ctx.cookies.set("userinfo", "joyitsai", {
-          // new Date(year, month, day, hours, minutes, seconds, milliseconds)
-          expires: new Date(2029, 5, 1, 10, 40, 0, 0),
-          httpOnly: true
-        });
         ctx.body = {
           code: 0,
           msg: "登陆成功",
           user
         };
-        // ctx.session = {
-        //   user_id: "12",
-        //   count: 0
-        // };
+        return ctx.login(user);
       } else {
         ctx.body = {
           code: -1,
@@ -164,17 +156,10 @@ router.get("/exit", async (ctx, next) => {
   }
 });
 router.get("/getUser", async ctx => {
-  // console.log(ctx);
-  console.log(ctx.session);
-  console.log("-----------------------------");
-  // console.log(ctx.res);
-  console.log(ctx.isAuthenticated());
-  // console.log("-----------------------------");
   if (ctx.isAuthenticated()) {
-    console.log(ctx);
     const { username, email } = ctx.session.passport.user;
     ctx.body = {
-      user: username,
+      user: decodeURIComponent(username),
       email
     };
   } else {
