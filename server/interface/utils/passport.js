@@ -7,7 +7,6 @@ passport.use(
     let where = {
       username
     };
-
     let result = await UserModel.findOne(where);
     if (result != null) {
       if (result.password === password) {
@@ -20,9 +19,11 @@ passport.use(
     }
   })
 );
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
+
 passport.deserializeUser(function(user, done) {
   return done(null, user);
 });

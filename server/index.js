@@ -1,8 +1,6 @@
 import Koa from "koa";
 import { Nuxt, Builder } from "nuxt";
 
-import users from "./interface/users";
-import search from "./interface/search";
 import mongoose from "mongoose";
 import bodyParser from "koa-bodyparser";
 import session from "koa-generic-session";
@@ -10,6 +8,9 @@ import Redis from "koa-redis";
 import json from "koa-json";
 import dbConfig from "./dbs/config";
 import passport from "./interface/utils/passport";
+import users from "./interface/users";
+import search from "./interface/search";
+import geo from "./interface/geo";
 const app = new Koa();
 const host = process.env.HOST || "127.0.0.1";
 const port = process.env.PORT || 3000;
@@ -37,9 +38,9 @@ app.use(json());
 
 mongoose.connect(dbConfig.dbs, function(err) {
   if (err) {
-    console.log("连接失败");
+    console.log("数据库连接失败");
   } else {
-    console.log("连接成功");
+    console.log("数据库连接成功");
   }
 });
 app.use(passport.initialize());
@@ -58,6 +59,7 @@ async function start() {
     await builder.build();
   }
   app.use(users.routes()).use(users.allowedMethods());
+  app.use(geo.routes()).use(geo.allowedMethods());
   app.use(search.routes()).use(search.allowedMethods());
 
   app.use(ctx => {

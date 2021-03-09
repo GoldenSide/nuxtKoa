@@ -3866,20 +3866,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var nuxt__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! nuxt */ "nuxt");
 /* harmony import */ var nuxt__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(nuxt__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _interface_users__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./interface/users */ "./server/interface/users.js");
-/* harmony import */ var _interface_search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./interface/search */ "./server/interface/search.js");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! mongoose */ "mongoose");
-/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
-/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! koa-generic-session */ "koa-generic-session");
-/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(koa_generic_session__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! koa-redis */ "koa-redis");
-/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(koa_redis__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! koa-json */ "koa-json");
-/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(koa_json__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _dbs_config__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dbs/config */ "./server/dbs/config.js");
-/* harmony import */ var _interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./interface/utils/passport */ "./server/interface/utils/passport.js");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! koa-generic-session */ "koa-generic-session");
+/* harmony import */ var koa_generic_session__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(koa_generic_session__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! koa-redis */ "koa-redis");
+/* harmony import */ var koa_redis__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(koa_redis__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! koa-json */ "koa-json");
+/* harmony import */ var koa_json__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(koa_json__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _dbs_config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./dbs/config */ "./server/dbs/config.js");
+/* harmony import */ var _interface_utils_passport__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./interface/utils/passport */ "./server/interface/utils/passport.js");
+/* harmony import */ var _interface_users__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./interface/users */ "./server/interface/users.js");
+/* harmony import */ var _interface_search__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./interface/search */ "./server/interface/search.js");
+/* harmony import */ var _interface_geo__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./interface/geo */ "./server/interface/geo.js");
+
 
 
 
@@ -3896,27 +3898,27 @@ const host = process.env.HOST || "127.0.0.1";
 const port = process.env.PORT || 3000;
 app.keys = ["mt", "keyskeys"];
 app.proxy = true;
-app.use(koa_generic_session__WEBPACK_IMPORTED_MODULE_6___default()({
+app.use(koa_generic_session__WEBPACK_IMPORTED_MODULE_4___default()({
   key: "mt",
   prefix: "mt:uid",
-  store: new koa_redis__WEBPACK_IMPORTED_MODULE_7___default.a()
+  store: new koa_redis__WEBPACK_IMPORTED_MODULE_5___default.a()
 }));
-app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_5___default()({
+app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_3___default()({
   extendTypes: ["json", "form", "text"]
 }));
-app.use(koa_json__WEBPACK_IMPORTED_MODULE_8___default()()); // mongoose.connect(dbConfig.dbs, {
+app.use(koa_json__WEBPACK_IMPORTED_MODULE_6___default()()); // mongoose.connect(dbConfig.dbs, {
 //   useNewUrlParser: true
 // });
 
-mongoose__WEBPACK_IMPORTED_MODULE_4___default.a.connect(_dbs_config__WEBPACK_IMPORTED_MODULE_9__["default"].dbs, function (err) {
+mongoose__WEBPACK_IMPORTED_MODULE_2___default.a.connect(_dbs_config__WEBPACK_IMPORTED_MODULE_7__["default"].dbs, function (err) {
   if (err) {
-    console.log("连接失败");
+    console.log("数据库连接失败");
   } else {
-    console.log("连接成功");
+    console.log("数据库连接成功");
   }
 });
-app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].initialize());
-app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_10__["default"].session()); // Import and Set Nuxt.js options
+app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_8__["default"].initialize());
+app.use(_interface_utils_passport__WEBPACK_IMPORTED_MODULE_8__["default"].session()); // Import and Set Nuxt.js options
 
 const config = __webpack_require__(/*! ../nuxt.config.js */ "./nuxt.config.js");
 
@@ -3931,8 +3933,9 @@ async function start() {
     await builder.build();
   }
 
-  app.use(_interface_users__WEBPACK_IMPORTED_MODULE_2__["default"].routes()).use(_interface_users__WEBPACK_IMPORTED_MODULE_2__["default"].allowedMethods());
-  app.use(_interface_search__WEBPACK_IMPORTED_MODULE_3__["default"].routes()).use(_interface_search__WEBPACK_IMPORTED_MODULE_3__["default"].allowedMethods());
+  app.use(_interface_users__WEBPACK_IMPORTED_MODULE_9__["default"].routes()).use(_interface_users__WEBPACK_IMPORTED_MODULE_9__["default"].allowedMethods());
+  app.use(_interface_geo__WEBPACK_IMPORTED_MODULE_11__["default"].routes()).use(_interface_geo__WEBPACK_IMPORTED_MODULE_11__["default"].allowedMethods());
+  app.use(_interface_search__WEBPACK_IMPORTED_MODULE_10__["default"].routes()).use(_interface_search__WEBPACK_IMPORTED_MODULE_10__["default"].allowedMethods());
   app.use(ctx => {
     ctx.status = 200;
     ctx.respond = false; // Mark request as handled for Koa
@@ -3946,6 +3949,33 @@ async function start() {
 }
 
 start();
+
+/***/ }),
+
+/***/ "./server/interface/geo.js":
+/*!*********************************!*\
+  !*** ./server/interface/geo.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/axios */ "./server/interface/utils/axios.js");
+
+
+let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
+  prefix: "/geo"
+});
+router.get("/getPosition", async ctx => {
+  //   let obj = await axios.get("http://api.79xj.cn/ip.php?ip=183.17.230.79");
+  //   let obj = await axios.get("http://pv.sohu.com/cityjson");
+  let obj = await _utils_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("https://www.ip.cn/api/index?ip=&type=0");
+  ctx.body = obj.data;
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 
@@ -4119,19 +4149,12 @@ router.post("/signin", async (ctx, next) => {
       };
     } else {
       if (user) {
-        ctx.cookies.set("userinfo", "joyitsai", {
-          // new Date(year, month, day, hours, minutes, seconds, milliseconds)
-          expires: new Date(2029, 5, 1, 10, 40, 0, 0),
-          httpOnly: true
-        });
         ctx.body = {
           code: 0,
           msg: "登陆成功",
           user
-        }; // ctx.session = {
-        //   user_id: "12",
-        //   count: 0
-        // };
+        };
+        return ctx.login(user);
       } else {
         ctx.body = {
           code: -1,
@@ -4200,14 +4223,7 @@ router.get("/exit", async (ctx, next) => {
   }
 });
 router.get("/getUser", async ctx => {
-  // console.log(ctx);
-  console.log(ctx.session);
-  console.log("-----------------------------"); // console.log(ctx.res);
-
-  console.log(ctx.isAuthenticated()); // console.log("-----------------------------");
-
   if (ctx.isAuthenticated()) {
-    console.log(ctx);
     const {
       username,
       email
@@ -4242,7 +4258,6 @@ __webpack_require__.r(__webpack_exports__);
 const instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: `http://${process.env.HOST || "localhost"}:${process.env.prot || 3000}`,
   timeout: 1000,
-  withCredentials: true,
   headers: {}
 });
 /* harmony default export */ __webpack_exports__["default"] = (instance);
