@@ -4229,7 +4229,7 @@ router.get("/getUser", async ctx => {
       email
     } = ctx.session.passport.user;
     ctx.body = {
-      user: username,
+      user: decodeURIComponent(username),
       email
     };
   } else {
