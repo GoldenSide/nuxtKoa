@@ -15,13 +15,15 @@
               alt=""
             />
           </h4>
-          <p class="m-life-login-name">Hi！你好</p>
-          <p>
+          <p class="m-life-login-name">
+            Hi！{{ $store.state.user.userInfo || "你好" }}
+          </p>
+          <p v-if="!$store.state.user.userInfo">
             <nuxt-link to="/register"
               ><el-button round size="medium">注册</el-button></nuxt-link
             >
           </p>
-          <p>
+          <p v-if="!$store.state.user.userInfo">
             <nuxt-link to="/login"
               ><el-button round size="medium">立即登录</el-button></nuxt-link
             >
@@ -58,6 +60,9 @@ import Slider from "./slider.vue";
 export default {
   components: {
     Slider,
+  },
+  data() {
+    return {};
   },
 };
 </script>

@@ -3970,10 +3970,11 @@ let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
   prefix: "/geo"
 });
 router.get("/getPosition", async ctx => {
-  //   let obj = await axios.get("http://api.79xj.cn/ip.php?ip=183.17.230.79");
-  //   let obj = await axios.get("http://pv.sohu.com/cityjson");
-  let obj = await _utils_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("https://www.ip.cn/api/index?ip=&type=0");
-  ctx.body = obj.data;
+  let {
+    data
+  } = await _utils_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("https://www.ip.cn/api/index?ip=&type=0");
+  data.city = data.address.split(" ")[3];
+  ctx.body = data;
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
@@ -4257,7 +4258,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const instance = axios__WEBPACK_IMPORTED_MODULE_0___default.a.create({
   baseURL: `http://${process.env.HOST || "localhost"}:${process.env.prot || 3000}`,
-  timeout: 1000,
+  timeout: 5000,
   headers: {}
 });
 /* harmony default export */ __webpack_exports__["default"] = (instance);
