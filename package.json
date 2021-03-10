@@ -15,6 +15,7 @@
     "@nuxtjs/axios": "^5.12.0",
     "cross-env": "^5.0.1",
     "element-ui": "^2.13.2",
+    "js-pinyin": "^0.1.9",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-generic-session": "^2.0.1",

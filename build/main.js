@@ -3821,6 +3821,62 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./server/dbs/models/city.js":
+/*!***********************************!*\
+  !*** ./server/dbs/models/city.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const Schema = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema;
+const CitySchema = new Schema({
+  id: {
+    type: String,
+    unique: true,
+    require: true
+  },
+  value: {
+    type: Array,
+    require: true
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model("City", CitySchema));
+
+/***/ }),
+
+/***/ "./server/dbs/models/province.js":
+/*!***************************************!*\
+  !*** ./server/dbs/models/province.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const Schema = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema;
+const ProvinceSchema = new Schema({
+  id: {
+    type: String,
+    unique: true,
+    require: true
+  },
+  value: {
+    type: String,
+    require: true
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model("Province", ProvinceSchema));
+
+/***/ }),
+
 /***/ "./server/dbs/models/users.js":
 /*!************************************!*\
   !*** ./server/dbs/models/users.js ***!
@@ -3964,6 +4020,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/axios */ "./server/interface/utils/axios.js");
+/* harmony import */ var _dbs_models_province__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dbs/models/province */ "./server/dbs/models/province.js");
+/* harmony import */ var _dbs_models_city__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dbs/models/city */ "./server/dbs/models/city.js");
+
+
 
 
 let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
@@ -3975,6 +4035,40 @@ router.get("/getPosition", async ctx => {
   } = await _utils_axios__WEBPACK_IMPORTED_MODULE_1__["default"].get("https://www.ip.cn/api/index?ip=&type=0");
   data.city = data.address.split(" ")[3];
   ctx.body = data;
+});
+router.get("/province", async ctx => {
+  let province = await _dbs_models_province__WEBPACK_IMPORTED_MODULE_2__["default"].find();
+  ctx.body = {
+    province: province.map(item => {
+      return {
+        id: item.id,
+        name: item.value
+      };
+    })
+  };
+});
+router.get("/province/:id", async ctx => {
+  let city = await _dbs_models_city__WEBPACK_IMPORTED_MODULE_3__["default"].findOne({
+    id: ctx.params.id
+  });
+  ctx.body = {
+    city: city.value
+  };
+});
+router.get("/city", async ctx => {
+  let res = await _dbs_models_city__WEBPACK_IMPORTED_MODULE_3__["default"].find();
+  let city = res.reduce((prev, next) => {
+    return prev.concat(next.value);
+  }, []);
+  ctx.body = {
+    city: city.map(item => {
+      return {
+        province: item.province,
+        id: item.id,
+        name: item.name === "市辖区" || item.name === "省直辖县级行政区划" ? item.province : item.name
+      };
+    })
+  };
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
