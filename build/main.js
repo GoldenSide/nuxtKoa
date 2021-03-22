@@ -3849,6 +3849,29 @@ const CitySchema = new Schema({
 
 /***/ }),
 
+/***/ "./server/dbs/models/menu.js":
+/*!***********************************!*\
+  !*** ./server/dbs/models/menu.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const Schema = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema;
+const Menu = new Schema({
+  menu: {
+    type: Array,
+    require: true
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model("Menu", Menu));
+
+/***/ }),
+
 /***/ "./server/dbs/models/province.js":
 /*!***************************************!*\
   !*** ./server/dbs/models/province.js ***!
@@ -4022,6 +4045,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/axios */ "./server/interface/utils/axios.js");
 /* harmony import */ var _dbs_models_province__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dbs/models/province */ "./server/dbs/models/province.js");
 /* harmony import */ var _dbs_models_city__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dbs/models/city */ "./server/dbs/models/city.js");
+/* harmony import */ var _dbs_models_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dbs/models/menu */ "./server/dbs/models/menu.js");
+
 
 
 
@@ -4068,6 +4093,23 @@ router.get("/city", async ctx => {
         name: item.name === "市辖区" || item.name === "省直辖县级行政区划" ? item.province : item.name
       };
     })
+  };
+});
+router.get("/hotCity", async ctx => {
+  let list = ["北京市", "上海市", "广州市", "深圳市", "天津市", "西安市", "杭州市", "南京市", "武汉市", "成都市"];
+  let result = await _dbs_models_city__WEBPACK_IMPORTED_MODULE_3__["default"].find();
+  let nList = [];
+  result.forEach(item => {
+    nList = nList.concat(item.value.filter(k => list.includes(k.name) || list.includes(k.province)));
+  });
+  ctx.body = {
+    hots: nList
+  };
+});
+router.get("/menu", async ctx => {
+  const result = await _dbs_models_menu__WEBPACK_IMPORTED_MODULE_4__["default"].findOne();
+  ctx.body = {
+    menu: result.menu
   };
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
