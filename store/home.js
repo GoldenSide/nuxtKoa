@@ -1,11 +1,6 @@
 export const state = () => ({
   hotPlace: [],
-  menu: [
-    {
-      type: "food",
-      name: "美食"
-    }
-  ]
+  menu: []
 });
 
 export const mutations = {
