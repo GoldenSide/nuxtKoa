@@ -8,7 +8,7 @@ const ProvinceSchema = new Schema({
     require: true
   },
   value: {
-    type: String,
+    type: Array,
     require: true
   }
 });

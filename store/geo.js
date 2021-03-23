@@ -1,4 +1,4 @@
-export const state = () => ({ position: { city: "深圳" } });
+export const state = () => ({ position: { city: "三亚" } });
 export const mutations = {
   setPosition(state, val) {
     state.position = val;

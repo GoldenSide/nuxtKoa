@@ -3872,6 +3872,62 @@ const Menu = new Schema({
 
 /***/ }),
 
+/***/ "./server/dbs/models/poi.js":
+/*!**********************************!*\
+  !*** ./server/dbs/models/poi.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
+/* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
+
+const Schema = mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema;
+const Poi = new Schema({
+  name: {
+    type: String //景点名
+
+  },
+  province: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  county: {
+    type: String
+  },
+  areaCode: {
+    type: String
+  },
+  tel: {
+    type: String
+  },
+  area: {
+    type: String
+  },
+  addr: {
+    type: String
+  },
+  type: {
+    type: String
+  },
+  module: {
+    type: String
+  },
+  longitude: {
+    type: Number
+  },
+  latitude: {
+    type: Number
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.model("Poi", Poi));
+
+/***/ }),
+
 /***/ "./server/dbs/models/province.js":
 /*!***************************************!*\
   !*** ./server/dbs/models/province.js ***!
@@ -3892,7 +3948,7 @@ const ProvinceSchema = new Schema({
     require: true
   },
   value: {
-    type: String,
+    type: Array,
     require: true
   }
 });
@@ -4127,12 +4183,52 @@ router.get("/menu", async ctx => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
 /* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _dbs_models_poi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dbs/models/poi */ "./server/dbs/models/poi.js");
  // import axios from './utils/axios'
-// import Poi from '../dbs/models/poi'
-// import sign from './utils/sign'
+
+ // import sign from './utils/sign'
 
 let router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a({
   prefix: "/search"
+});
+router.get("/top", async ctx => {
+  try {
+    let top = await _dbs_models_poi__WEBPACK_IMPORTED_MODULE_1__["default"].find({
+      name: new RegExp(ctx.query.input),
+      city: "三亚"
+    });
+    ctx.body = {
+      code: 0,
+      top: top.map(item => {
+        return {
+          name: item.name,
+          type: item.type
+        };
+      }),
+      type: top.length ? top[0].type : ""
+    };
+  } catch (e) {
+    ctx.body = {
+      code: "-1",
+      top: []
+    };
+  }
+});
+router.get("/hotPlace", async ctx => {
+  // let city = ctx.store ? ctx.store.geo.position.city : ctx.query.city;
+  let result = await _dbs_models_poi__WEBPACK_IMPORTED_MODULE_1__["default"].find({
+    city: "三亚",
+    type: "丽人"
+  }).limit(10);
+  ctx.body = {
+    code: 0,
+    result: result.map(item => {
+      return {
+        name: item.name,
+        type: item.type
+      };
+    })
+  };
 });
 router.get("/resultsByKeywords", async ctx => {
   const {
